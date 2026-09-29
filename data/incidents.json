@@ -1,0 +1,2302 @@
+[
+  {
+    "incident_id": "INC-1001",
+    "service": "payment-api",
+    "timestamp": "2026-01-05T16:25:00",
+    "severity": "critical",
+    "symptoms": [
+      "HTTP 503 errors",
+      "database connection timeouts",
+      "high payment failure rate"
+    ],
+    "logs": [
+      "DB connection pool exhausted",
+      "connection timeout after 30 seconds"
+    ],
+    "root_cause": "Database connection pool exhaustion caused by increased concurrent database usage.",
+    "resolution": [
+      "Terminate stale DB connections",
+      "Increase connection pool size"
+    ],
+    "resolution_time_minutes": 17,
+    "outcome": "successful",
+    "engineer_feedback": "The fix worked as expected and traffic recovered."
+  },
+  {
+    "incident_id": "INC-1002",
+    "service": "payment-api",
+    "timestamp": "2026-01-07T11:15:00",
+    "severity": "high",
+    "symptoms": [
+      "payment requests timing out",
+      "high API latency",
+      "intermittent 504 errors"
+    ],
+    "logs": [
+      "Redis latency above 2 seconds",
+      "cache requests timing out"
+    ],
+    "root_cause": "A Redis replica became overloaded.",
+    "resolution": [
+      "Scale Redis capacity",
+      "Shift traffic to healthy replica"
+    ],
+    "resolution_time_minutes": 11,
+    "outcome": "successful",
+    "engineer_feedback": "Engineer confirmed that the remediation resolved the issue."
+  },
+  {
+    "incident_id": "INC-1003",
+    "service": "auth-service",
+    "timestamp": "2026-01-09T15:57:00",
+    "severity": "critical",
+    "symptoms": [
+      "login failures",
+      "token validation errors",
+      "authentication requests failing"
+    ],
+    "logs": [
+      "TLS certificate expired",
+      "certificate validation failed"
+    ],
+    "root_cause": "Expired certificate caused downstream TLS validation failures.",
+    "resolution": [
+      "Replace expired certificate",
+      "Restart auth-service instances"
+    ],
+    "resolution_time_minutes": 54,
+    "outcome": "failed",
+    "engineer_feedback": "The remediation had no meaningful effect and another approach was required."
+  },
+  {
+    "incident_id": "INC-1004",
+    "service": "order-service",
+    "timestamp": "2026-01-11T11:32:00",
+    "severity": "high",
+    "symptoms": [
+      "order processing delayed",
+      "Kafka consumer lag increasing",
+      "orders stuck in processing"
+    ],
+    "logs": [
+      "consumer lag exceeded threshold",
+      "Kafka partition backlog increasing"
+    ],
+    "root_cause": "A slow consumer group caused partition backlog.",
+    "resolution": [
+      "Scale order-service consumers",
+      "Rebalance partitions"
+    ],
+    "resolution_time_minutes": 18,
+    "outcome": "successful",
+    "engineer_feedback": "The fix worked as expected and traffic recovered."
+  },
+  {
+    "incident_id": "INC-1005",
+    "service": "order-service",
+    "timestamp": "2026-01-13T10:09:00",
+    "severity": "high",
+    "symptoms": [
+      "order creation failures",
+      "database transaction errors",
+      "increased request latency"
+    ],
+    "logs": [
+      "deadlock detected",
+      "transaction rolled back"
+    ],
+    "root_cause": "A transaction pattern created lock contention between order operations.",
+    "resolution": [
+      "Retry failed transactions",
+      "Terminate blocking transaction"
+    ],
+    "resolution_time_minutes": 39,
+    "outcome": "partially successful",
+    "engineer_feedback": "The first remediation reduced the impact but additional investigation was required."
+  },
+  {
+    "incident_id": "INC-1006",
+    "service": "catalog-service",
+    "timestamp": "2026-01-15T15:24:00",
+    "severity": "medium",
+    "symptoms": [
+      "high API latency",
+      "CPU utilization above 95%",
+      "slow catalog requests"
+    ],
+    "logs": [
+      "CPU utilization 98%",
+      "request queue increasing"
+    ],
+    "root_cause": "Insufficient service capacity caused CPU saturation.",
+    "resolution": [
+      "Scale catalog-service instances",
+      "Monitor CPU utilization"
+    ],
+    "resolution_time_minutes": 20,
+    "outcome": "successful",
+    "engineer_feedback": "The remediation resolved the incident and service metrics returned to normal."
+  },
+  {
+    "incident_id": "INC-1007",
+    "service": "notification-service",
+    "timestamp": "2026-01-17T17:55:00",
+    "severity": "medium",
+    "symptoms": [
+      "notifications delayed",
+      "message queue backlog increasing",
+      "delivery latency high"
+    ],
+    "logs": [
+      "queue depth above threshold",
+      "consumer throughput below incoming rate"
+    ],
+    "root_cause": "Queue backlog grew after a sudden increase in notification traffic.",
+    "resolution": [
+      "Restart failed workers",
+      "Scale consumers"
+    ],
+    "resolution_time_minutes": 23,
+    "outcome": "successful",
+    "engineer_feedback": "Engineer confirmed that the remediation resolved the issue."
+  },
+  {
+    "incident_id": "INC-1008",
+    "service": "search-service",
+    "timestamp": "2026-01-19T17:48:00",
+    "severity": "high",
+    "symptoms": [
+      "search latency increasing",
+      "pod restarts",
+      "out-of-memory errors"
+    ],
+    "logs": [
+      "Java heap usage above 95%",
+      "OOMKilled container"
+    ],
+    "root_cause": "Search service memory usage increased until containers were OOM killed.",
+    "resolution": [
+      "Reduce large query load",
+      "Restart affected pods"
+    ],
+    "resolution_time_minutes": 38,
+    "outcome": "partially successful",
+    "engineer_feedback": "The first remediation reduced the impact but additional investigation was required."
+  },
+  {
+    "incident_id": "INC-1009",
+    "service": "user-profile-service",
+    "timestamp": "2026-01-21T13:27:00",
+    "severity": "medium",
+    "symptoms": [
+      "profile requests slow",
+      "database query latency high",
+      "request timeouts"
+    ],
+    "logs": [
+      "database query latency above 5 seconds",
+      "slow query threshold exceeded"
+    ],
+    "root_cause": "Database load caused elevated query latency.",
+    "resolution": [
+      "Shift reads to replica",
+      "Terminate expensive query"
+    ],
+    "resolution_time_minutes": 17,
+    "outcome": "successful",
+    "engineer_feedback": "The remediation resolved the incident and service metrics returned to normal."
+  },
+  {
+    "incident_id": "INC-1010",
+    "service": "payment-api",
+    "timestamp": "2026-01-23T17:48:00",
+    "severity": "critical",
+    "symptoms": [
+      "HTTP 503 errors",
+      "database connection timeouts",
+      "high payment failure rate"
+    ],
+    "logs": [
+      "DB connection pool exhausted",
+      "connection timeout after 30 seconds"
+    ],
+    "root_cause": "Database connection pool exhaustion caused by increased concurrent database usage.",
+    "resolution": [
+      "Increase DB pool limits",
+      "Scale payment-api instances"
+    ],
+    "resolution_time_minutes": 15,
+    "outcome": "partially successful",
+    "engineer_feedback": "The remediation helped temporarily; a second change was required."
+  },
+  {
+    "incident_id": "INC-1011",
+    "service": "payment-api",
+    "timestamp": "2026-01-25T17:38:00",
+    "severity": "high",
+    "symptoms": [
+      "payment requests timing out",
+      "high API latency",
+      "intermittent 504 errors"
+    ],
+    "logs": [
+      "Redis latency above 2 seconds",
+      "cache requests timing out"
+    ],
+    "root_cause": "Redis replica latency caused payment request timeouts.",
+    "resolution": [
+      "Remove overloaded replica from rotation",
+      "Restart Redis replica"
+    ],
+    "resolution_time_minutes": 18,
+    "outcome": "partially successful",
+    "engineer_feedback": "The remediation helped temporarily; a second change was required."
+  },
+  {
+    "incident_id": "INC-1012",
+    "service": "auth-service",
+    "timestamp": "2026-01-27T17:49:00",
+    "severity": "critical",
+    "symptoms": [
+      "login failures",
+      "token validation errors",
+      "authentication requests failing"
+    ],
+    "logs": [
+      "TLS certificate expired",
+      "certificate validation failed"
+    ],
+    "root_cause": "Authentication service TLS certificate expired.",
+    "resolution": [
+      "Renew authentication certificate",
+      "Restart auth-service"
+    ],
+    "resolution_time_minutes": 18,
+    "outcome": "successful",
+    "engineer_feedback": "The fix worked as expected and traffic recovered."
+  },
+  {
+    "incident_id": "INC-1013",
+    "service": "order-service",
+    "timestamp": "2026-01-29T09:07:00",
+    "severity": "high",
+    "symptoms": [
+      "order processing delayed",
+      "Kafka consumer lag increasing",
+      "orders stuck in processing"
+    ],
+    "logs": [
+      "consumer lag exceeded threshold",
+      "Kafka partition backlog increasing"
+    ],
+    "root_cause": "A slow consumer group caused partition backlog.",
+    "resolution": [
+      "Increase Kafka consumers",
+      "Rebalance consumer group"
+    ],
+    "resolution_time_minutes": 17,
+    "outcome": "successful",
+    "engineer_feedback": "Service recovered after the recommended remediation."
+  },
+  {
+    "incident_id": "INC-1014",
+    "service": "order-service",
+    "timestamp": "2026-01-31T12:56:00",
+    "severity": "high",
+    "symptoms": [
+      "order creation failures",
+      "database transaction errors",
+      "increased request latency"
+    ],
+    "logs": [
+      "deadlock detected",
+      "transaction rolled back"
+    ],
+    "root_cause": "A transaction pattern created lock contention between order operations.",
+    "resolution": [
+      "Clear blocking transaction",
+      "Restart affected workers"
+    ],
+    "resolution_time_minutes": 14,
+    "outcome": "successful",
+    "engineer_feedback": "The remediation resolved the incident and service metrics returned to normal."
+  },
+  {
+    "incident_id": "INC-1015",
+    "service": "catalog-service",
+    "timestamp": "2026-02-02T10:48:00",
+    "severity": "medium",
+    "symptoms": [
+      "high API latency",
+      "CPU utilization above 95%",
+      "slow catalog requests"
+    ],
+    "logs": [
+      "CPU utilization 98%",
+      "request queue increasing"
+    ],
+    "root_cause": "Insufficient service capacity caused CPU saturation.",
+    "resolution": [
+      "Scale catalog-service instances",
+      "Monitor CPU utilization"
+    ],
+    "resolution_time_minutes": 17,
+    "outcome": "partially successful",
+    "engineer_feedback": "The issue was partially mitigated but required further engineering work."
+  },
+  {
+    "incident_id": "INC-1016",
+    "service": "notification-service",
+    "timestamp": "2026-02-04T17:10:00",
+    "severity": "medium",
+    "symptoms": [
+      "notifications delayed",
+      "message queue backlog increasing",
+      "delivery latency high"
+    ],
+    "logs": [
+      "queue depth above threshold",
+      "consumer throughput below incoming rate"
+    ],
+    "root_cause": "Queue backlog grew after a sudden increase in notification traffic.",
+    "resolution": [
+      "Increase notification workers",
+      "Drain queue backlog"
+    ],
+    "resolution_time_minutes": 11,
+    "outcome": "successful",
+    "engineer_feedback": "Service recovered after the recommended remediation."
+  },
+  {
+    "incident_id": "INC-1017",
+    "service": "search-service",
+    "timestamp": "2026-02-06T17:48:00",
+    "severity": "high",
+    "symptoms": [
+      "search latency increasing",
+      "pod restarts",
+      "out-of-memory errors"
+    ],
+    "logs": [
+      "Java heap usage above 95%",
+      "OOMKilled container"
+    ],
+    "root_cause": "A memory leak caused sustained heap growth.",
+    "resolution": [
+      "Reduce large query load",
+      "Restart affected pods"
+    ],
+    "resolution_time_minutes": 20,
+    "outcome": "successful",
+    "engineer_feedback": "The fix worked as expected and traffic recovered."
+  },
+  {
+    "incident_id": "INC-1018",
+    "service": "user-profile-service",
+    "timestamp": "2026-02-08T15:42:00",
+    "severity": "medium",
+    "symptoms": [
+      "profile requests slow",
+      "database query latency high",
+      "request timeouts"
+    ],
+    "logs": [
+      "database query latency above 5 seconds",
+      "slow query threshold exceeded"
+    ],
+    "root_cause": "Missing query optimization caused repeated slow queries.",
+    "resolution": [
+      "Shift reads to replica",
+      "Terminate expensive query"
+    ],
+    "resolution_time_minutes": 32,
+    "outcome": "failed",
+    "engineer_feedback": "The remediation had no meaningful effect and another approach was required."
+  },
+  {
+    "incident_id": "INC-1019",
+    "service": "payment-api",
+    "timestamp": "2026-02-10T10:15:00",
+    "severity": "critical",
+    "symptoms": [
+      "HTTP 503 errors",
+      "database connection timeouts",
+      "high payment failure rate"
+    ],
+    "logs": [
+      "DB connection pool exhausted",
+      "connection timeout after 30 seconds"
+    ],
+    "root_cause": "Too many concurrent database connections exhausted the configured pool.",
+    "resolution": [
+      "Increase DB pool limits",
+      "Scale payment-api instances"
+    ],
+    "resolution_time_minutes": 29,
+    "outcome": "partially successful",
+    "engineer_feedback": "The issue was partially mitigated but required further engineering work."
+  },
+  {
+    "incident_id": "INC-1020",
+    "service": "payment-api",
+    "timestamp": "2026-02-12T17:14:00",
+    "severity": "high",
+    "symptoms": [
+      "payment requests timing out",
+      "high API latency",
+      "intermittent 504 errors"
+    ],
+    "logs": [
+      "Redis latency above 2 seconds",
+      "cache requests timing out"
+    ],
+    "root_cause": "Redis replica latency caused payment request timeouts.",
+    "resolution": [
+      "Restart overloaded Redis replica",
+      "Shift traffic to healthy replica"
+    ],
+    "resolution_time_minutes": 17,
+    "outcome": "successful",
+    "engineer_feedback": "The remediation resolved the incident and service metrics returned to normal."
+  },
+  {
+    "incident_id": "INC-1021",
+    "service": "auth-service",
+    "timestamp": "2026-02-14T09:14:00",
+    "severity": "critical",
+    "symptoms": [
+      "login failures",
+      "token validation errors",
+      "authentication requests failing"
+    ],
+    "logs": [
+      "TLS certificate expired",
+      "certificate validation failed"
+    ],
+    "root_cause": "Expired certificate caused downstream TLS validation failures.",
+    "resolution": [
+      "Renew authentication certificate",
+      "Restart auth-service"
+    ],
+    "resolution_time_minutes": 7,
+    "outcome": "successful",
+    "engineer_feedback": "The remediation resolved the incident and service metrics returned to normal."
+  },
+  {
+    "incident_id": "INC-1022",
+    "service": "order-service",
+    "timestamp": "2026-02-16T17:15:00",
+    "severity": "high",
+    "symptoms": [
+      "order processing delayed",
+      "Kafka consumer lag increasing",
+      "orders stuck in processing"
+    ],
+    "logs": [
+      "consumer lag exceeded threshold",
+      "Kafka partition backlog increasing"
+    ],
+    "root_cause": "Kafka consumer lag increased because consumers could not keep up with order volume.",
+    "resolution": [
+      "Increase Kafka consumers",
+      "Rebalance consumer group"
+    ],
+    "resolution_time_minutes": 17,
+    "outcome": "successful",
+    "engineer_feedback": "The remediation resolved the incident and service metrics returned to normal."
+  },
+  {
+    "incident_id": "INC-1023",
+    "service": "order-service",
+    "timestamp": "2026-02-18T17:08:00",
+    "severity": "high",
+    "symptoms": [
+      "order creation failures",
+      "database transaction errors",
+      "increased request latency"
+    ],
+    "logs": [
+      "deadlock detected",
+      "transaction rolled back"
+    ],
+    "root_cause": "A transaction pattern created lock contention between order operations.",
+    "resolution": [
+      "Reduce concurrent writes",
+      "Retry failed transactions"
+    ],
+    "resolution_time_minutes": 22,
+    "outcome": "successful",
+    "engineer_feedback": "The fix worked as expected and traffic recovered."
+  },
+  {
+    "incident_id": "INC-1024",
+    "service": "catalog-service",
+    "timestamp": "2026-02-20T12:50:00",
+    "severity": "medium",
+    "symptoms": [
+      "high API latency",
+      "CPU utilization above 95%",
+      "slow catalog requests"
+    ],
+    "logs": [
+      "CPU utilization 98%",
+      "request queue increasing"
+    ],
+    "root_cause": "Insufficient service capacity caused CPU saturation.",
+    "resolution": [
+      "Temporarily reduce expensive queries",
+      "Scale catalog-service"
+    ],
+    "resolution_time_minutes": 56,
+    "outcome": "failed",
+    "engineer_feedback": "The issue remained unresolved after the attempted remediation."
+  },
+  {
+    "incident_id": "INC-1025",
+    "service": "notification-service",
+    "timestamp": "2026-02-22T10:42:00",
+    "severity": "medium",
+    "symptoms": [
+      "notifications delayed",
+      "message queue backlog increasing",
+      "delivery latency high"
+    ],
+    "logs": [
+      "queue depth above threshold",
+      "consumer throughput below incoming rate"
+    ],
+    "root_cause": "A worker failure reduced queue processing capacity.",
+    "resolution": [
+      "Restart failed workers",
+      "Scale consumers"
+    ],
+    "resolution_time_minutes": 21,
+    "outcome": "partially successful",
+    "engineer_feedback": "The first remediation reduced the impact but additional investigation was required."
+  },
+  {
+    "incident_id": "INC-1026",
+    "service": "search-service",
+    "timestamp": "2026-02-24T16:55:00",
+    "severity": "high",
+    "symptoms": [
+      "search latency increasing",
+      "pod restarts",
+      "out-of-memory errors"
+    ],
+    "logs": [
+      "Java heap usage above 95%",
+      "OOMKilled container"
+    ],
+    "root_cause": "A memory leak caused sustained heap growth.",
+    "resolution": [
+      "Restart leaking pods",
+      "Increase memory limit"
+    ],
+    "resolution_time_minutes": 20,
+    "outcome": "successful",
+    "engineer_feedback": "Service recovered after the recommended remediation."
+  },
+  {
+    "incident_id": "INC-1027",
+    "service": "user-profile-service",
+    "timestamp": "2026-02-26T09:25:00",
+    "severity": "medium",
+    "symptoms": [
+      "profile requests slow",
+      "database query latency high",
+      "request timeouts"
+    ],
+    "logs": [
+      "database query latency above 5 seconds",
+      "slow query threshold exceeded"
+    ],
+    "root_cause": "Missing query optimization caused repeated slow queries.",
+    "resolution": [
+      "Terminate expensive query",
+      "Scale database read capacity"
+    ],
+    "resolution_time_minutes": 36,
+    "outcome": "partially successful",
+    "engineer_feedback": "The first remediation reduced the impact but additional investigation was required."
+  },
+  {
+    "incident_id": "INC-1028",
+    "service": "payment-api",
+    "timestamp": "2026-02-28T12:12:00",
+    "severity": "critical",
+    "symptoms": [
+      "HTTP 503 errors",
+      "database connection timeouts",
+      "high payment failure rate"
+    ],
+    "logs": [
+      "DB connection pool exhausted",
+      "connection timeout after 30 seconds"
+    ],
+    "root_cause": "Too many concurrent database connections exhausted the configured pool.",
+    "resolution": [
+      "Increase DB pool limits",
+      "Scale payment-api instances"
+    ],
+    "resolution_time_minutes": 10,
+    "outcome": "successful",
+    "engineer_feedback": "The fix worked as expected and traffic recovered."
+  },
+  {
+    "incident_id": "INC-1029",
+    "service": "payment-api",
+    "timestamp": "2026-03-02T11:17:00",
+    "severity": "high",
+    "symptoms": [
+      "payment requests timing out",
+      "high API latency",
+      "intermittent 504 errors"
+    ],
+    "logs": [
+      "Redis latency above 2 seconds",
+      "cache requests timing out"
+    ],
+    "root_cause": "A Redis replica became overloaded.",
+    "resolution": [
+      "Scale Redis capacity",
+      "Shift traffic to healthy replica"
+    ],
+    "resolution_time_minutes": 28,
+    "outcome": "failed",
+    "engineer_feedback": "The issue remained unresolved after the attempted remediation."
+  },
+  {
+    "incident_id": "INC-1030",
+    "service": "auth-service",
+    "timestamp": "2026-03-04T17:06:00",
+    "severity": "critical",
+    "symptoms": [
+      "login failures",
+      "token validation errors",
+      "authentication requests failing"
+    ],
+    "logs": [
+      "TLS certificate expired",
+      "certificate validation failed"
+    ],
+    "root_cause": "Certificate renewal did not complete before expiration.",
+    "resolution": [
+      "Renew authentication certificate",
+      "Restart auth-service"
+    ],
+    "resolution_time_minutes": 9,
+    "outcome": "successful",
+    "engineer_feedback": "Service recovered after the recommended remediation."
+  },
+  {
+    "incident_id": "INC-1031",
+    "service": "order-service",
+    "timestamp": "2026-03-06T10:59:00",
+    "severity": "high",
+    "symptoms": [
+      "order processing delayed",
+      "Kafka consumer lag increasing",
+      "orders stuck in processing"
+    ],
+    "logs": [
+      "consumer lag exceeded threshold",
+      "Kafka partition backlog increasing"
+    ],
+    "root_cause": "Kafka consumer lag increased because consumers could not keep up with order volume.",
+    "resolution": [
+      "Restart slow consumers",
+      "Increase consumer count"
+    ],
+    "resolution_time_minutes": 24,
+    "outcome": "successful",
+    "engineer_feedback": "The remediation resolved the incident and service metrics returned to normal."
+  },
+  {
+    "incident_id": "INC-1032",
+    "service": "order-service",
+    "timestamp": "2026-03-08T16:13:00",
+    "severity": "high",
+    "symptoms": [
+      "order creation failures",
+      "database transaction errors",
+      "increased request latency"
+    ],
+    "logs": [
+      "deadlock detected",
+      "transaction rolled back"
+    ],
+    "root_cause": "Concurrent order transactions caused database deadlocks.",
+    "resolution": [
+      "Retry failed transactions",
+      "Terminate blocking transaction"
+    ],
+    "resolution_time_minutes": 20,
+    "outcome": "successful",
+    "engineer_feedback": "Service recovered after the recommended remediation."
+  },
+  {
+    "incident_id": "INC-1033",
+    "service": "catalog-service",
+    "timestamp": "2026-03-10T09:24:00",
+    "severity": "medium",
+    "symptoms": [
+      "high API latency",
+      "CPU utilization above 95%",
+      "slow catalog requests"
+    ],
+    "logs": [
+      "CPU utilization 98%",
+      "request queue increasing"
+    ],
+    "root_cause": "A high-volume catalog query increased CPU utilization.",
+    "resolution": [
+      "Scale catalog-service instances",
+      "Monitor CPU utilization"
+    ],
+    "resolution_time_minutes": 12,
+    "outcome": "successful",
+    "engineer_feedback": "Service recovered after the recommended remediation."
+  },
+  {
+    "incident_id": "INC-1034",
+    "service": "notification-service",
+    "timestamp": "2026-03-12T17:42:00",
+    "severity": "medium",
+    "symptoms": [
+      "notifications delayed",
+      "message queue backlog increasing",
+      "delivery latency high"
+    ],
+    "logs": [
+      "queue depth above threshold",
+      "consumer throughput below incoming rate"
+    ],
+    "root_cause": "A worker failure reduced queue processing capacity.",
+    "resolution": [
+      "Restart failed workers",
+      "Scale consumers"
+    ],
+    "resolution_time_minutes": 24,
+    "outcome": "partially successful",
+    "engineer_feedback": "The issue was partially mitigated but required further engineering work."
+  },
+  {
+    "incident_id": "INC-1035",
+    "service": "search-service",
+    "timestamp": "2026-03-14T13:13:00",
+    "severity": "high",
+    "symptoms": [
+      "search latency increasing",
+      "pod restarts",
+      "out-of-memory errors"
+    ],
+    "logs": [
+      "Java heap usage above 95%",
+      "OOMKilled container"
+    ],
+    "root_cause": "Large search requests caused memory pressure.",
+    "resolution": [
+      "Restart leaking pods",
+      "Increase memory limit"
+    ],
+    "resolution_time_minutes": 19,
+    "outcome": "partially successful",
+    "engineer_feedback": "Service improved but some errors remained after the initial fix."
+  },
+  {
+    "incident_id": "INC-1036",
+    "service": "user-profile-service",
+    "timestamp": "2026-03-16T14:03:00",
+    "severity": "medium",
+    "symptoms": [
+      "profile requests slow",
+      "database query latency high",
+      "request timeouts"
+    ],
+    "logs": [
+      "database query latency above 5 seconds",
+      "slow query threshold exceeded"
+    ],
+    "root_cause": "A slow database query increased profile request latency.",
+    "resolution": [
+      "Shift reads to replica",
+      "Terminate expensive query"
+    ],
+    "resolution_time_minutes": 24,
+    "outcome": "successful",
+    "engineer_feedback": "The remediation resolved the incident and service metrics returned to normal."
+  },
+  {
+    "incident_id": "INC-1037",
+    "service": "payment-api",
+    "timestamp": "2026-03-18T09:32:00",
+    "severity": "critical",
+    "symptoms": [
+      "HTTP 503 errors",
+      "database connection timeouts",
+      "high payment failure rate"
+    ],
+    "logs": [
+      "DB connection pool exhausted",
+      "connection timeout after 30 seconds"
+    ],
+    "root_cause": "Database connection pool exhaustion caused by increased concurrent database usage.",
+    "resolution": [
+      "Terminate stale DB connections",
+      "Increase connection pool size"
+    ],
+    "resolution_time_minutes": 50,
+    "outcome": "failed",
+    "engineer_feedback": "The initial fix failed and the incident required escalation."
+  },
+  {
+    "incident_id": "INC-1038",
+    "service": "payment-api",
+    "timestamp": "2026-03-20T12:25:00",
+    "severity": "high",
+    "symptoms": [
+      "payment requests timing out",
+      "high API latency",
+      "intermittent 504 errors"
+    ],
+    "logs": [
+      "Redis latency above 2 seconds",
+      "cache requests timing out"
+    ],
+    "root_cause": "Redis replica latency caused payment request timeouts.",
+    "resolution": [
+      "Restart overloaded Redis replica",
+      "Shift traffic to healthy replica"
+    ],
+    "resolution_time_minutes": 9,
+    "outcome": "successful",
+    "engineer_feedback": "The remediation resolved the incident and service metrics returned to normal."
+  },
+  {
+    "incident_id": "INC-1039",
+    "service": "auth-service",
+    "timestamp": "2026-03-22T10:26:00",
+    "severity": "critical",
+    "symptoms": [
+      "login failures",
+      "token validation errors",
+      "authentication requests failing"
+    ],
+    "logs": [
+      "TLS certificate expired",
+      "certificate validation failed"
+    ],
+    "root_cause": "Authentication service TLS certificate expired.",
+    "resolution": [
+      "Replace expired certificate",
+      "Restart auth-service instances"
+    ],
+    "resolution_time_minutes": 35,
+    "outcome": "failed",
+    "engineer_feedback": "The attempted remediation did not resolve the incident."
+  },
+  {
+    "incident_id": "INC-1040",
+    "service": "order-service",
+    "timestamp": "2026-03-24T13:13:00",
+    "severity": "high",
+    "symptoms": [
+      "order processing delayed",
+      "Kafka consumer lag increasing",
+      "orders stuck in processing"
+    ],
+    "logs": [
+      "consumer lag exceeded threshold",
+      "Kafka partition backlog increasing"
+    ],
+    "root_cause": "A slow consumer group caused partition backlog.",
+    "resolution": [
+      "Restart slow consumers",
+      "Increase consumer count"
+    ],
+    "resolution_time_minutes": 23,
+    "outcome": "successful",
+    "engineer_feedback": "Engineer confirmed that the remediation resolved the issue."
+  },
+  {
+    "incident_id": "INC-1041",
+    "service": "order-service",
+    "timestamp": "2026-03-26T13:25:00",
+    "severity": "high",
+    "symptoms": [
+      "order creation failures",
+      "database transaction errors",
+      "increased request latency"
+    ],
+    "logs": [
+      "deadlock detected",
+      "transaction rolled back"
+    ],
+    "root_cause": "Database lock contention caused repeated transaction rollbacks.",
+    "resolution": [
+      "Reduce concurrent writes",
+      "Retry failed transactions"
+    ],
+    "resolution_time_minutes": 17,
+    "outcome": "successful",
+    "engineer_feedback": "The fix worked as expected and traffic recovered."
+  },
+  {
+    "incident_id": "INC-1042",
+    "service": "catalog-service",
+    "timestamp": "2026-03-28T14:59:00",
+    "severity": "medium",
+    "symptoms": [
+      "high API latency",
+      "CPU utilization above 95%",
+      "slow catalog requests"
+    ],
+    "logs": [
+      "CPU utilization 98%",
+      "request queue increasing"
+    ],
+    "root_cause": "CPU saturation caused by a traffic spike.",
+    "resolution": [
+      "Temporarily reduce expensive queries",
+      "Scale catalog-service"
+    ],
+    "resolution_time_minutes": 16,
+    "outcome": "successful",
+    "engineer_feedback": "Service recovered after the recommended remediation."
+  },
+  {
+    "incident_id": "INC-1043",
+    "service": "notification-service",
+    "timestamp": "2026-03-30T10:34:00",
+    "severity": "medium",
+    "symptoms": [
+      "notifications delayed",
+      "message queue backlog increasing",
+      "delivery latency high"
+    ],
+    "logs": [
+      "queue depth above threshold",
+      "consumer throughput below incoming rate"
+    ],
+    "root_cause": "Notification consumers could not keep up with incoming message volume.",
+    "resolution": [
+      "Increase notification workers",
+      "Drain queue backlog"
+    ],
+    "resolution_time_minutes": 21,
+    "outcome": "successful",
+    "engineer_feedback": "The remediation resolved the incident and service metrics returned to normal."
+  },
+  {
+    "incident_id": "INC-1044",
+    "service": "search-service",
+    "timestamp": "2026-04-01T14:56:00",
+    "severity": "high",
+    "symptoms": [
+      "search latency increasing",
+      "pod restarts",
+      "out-of-memory errors"
+    ],
+    "logs": [
+      "Java heap usage above 95%",
+      "OOMKilled container"
+    ],
+    "root_cause": "Search service memory usage increased until containers were OOM killed.",
+    "resolution": [
+      "Reduce large query load",
+      "Restart affected pods"
+    ],
+    "resolution_time_minutes": 15,
+    "outcome": "successful",
+    "engineer_feedback": "The fix worked as expected and traffic recovered."
+  },
+  {
+    "incident_id": "INC-1045",
+    "service": "user-profile-service",
+    "timestamp": "2026-04-03T11:28:00",
+    "severity": "medium",
+    "symptoms": [
+      "profile requests slow",
+      "database query latency high",
+      "request timeouts"
+    ],
+    "logs": [
+      "database query latency above 5 seconds",
+      "slow query threshold exceeded"
+    ],
+    "root_cause": "A slow database query increased profile request latency.",
+    "resolution": [
+      "Terminate expensive query",
+      "Scale database read capacity"
+    ],
+    "resolution_time_minutes": 18,
+    "outcome": "successful",
+    "engineer_feedback": "Engineer confirmed that the remediation resolved the issue."
+  },
+  {
+    "incident_id": "INC-1046",
+    "service": "payment-api",
+    "timestamp": "2026-04-05T17:19:00",
+    "severity": "critical",
+    "symptoms": [
+      "HTTP 503 errors",
+      "database connection timeouts",
+      "high payment failure rate"
+    ],
+    "logs": [
+      "DB connection pool exhausted",
+      "connection timeout after 30 seconds"
+    ],
+    "root_cause": "Too many concurrent database connections exhausted the configured pool.",
+    "resolution": [
+      "Terminate stale DB connections",
+      "Increase connection pool size"
+    ],
+    "resolution_time_minutes": 24,
+    "outcome": "partially successful",
+    "engineer_feedback": "The first remediation reduced the impact but additional investigation was required."
+  },
+  {
+    "incident_id": "INC-1047",
+    "service": "payment-api",
+    "timestamp": "2026-04-07T10:56:00",
+    "severity": "high",
+    "symptoms": [
+      "payment requests timing out",
+      "high API latency",
+      "intermittent 504 errors"
+    ],
+    "logs": [
+      "Redis latency above 2 seconds",
+      "cache requests timing out"
+    ],
+    "root_cause": "A Redis replica became overloaded.",
+    "resolution": [
+      "Restart overloaded Redis replica",
+      "Shift traffic to healthy replica"
+    ],
+    "resolution_time_minutes": 19,
+    "outcome": "partially successful",
+    "engineer_feedback": "The remediation helped temporarily; a second change was required."
+  },
+  {
+    "incident_id": "INC-1048",
+    "service": "auth-service",
+    "timestamp": "2026-04-09T13:18:00",
+    "severity": "critical",
+    "symptoms": [
+      "login failures",
+      "token validation errors",
+      "authentication requests failing"
+    ],
+    "logs": [
+      "TLS certificate expired",
+      "certificate validation failed"
+    ],
+    "root_cause": "Authentication service TLS certificate expired.",
+    "resolution": [
+      "Replace expired certificate",
+      "Restart auth-service instances"
+    ],
+    "resolution_time_minutes": 32,
+    "outcome": "partially successful",
+    "engineer_feedback": "Service improved but some errors remained after the initial fix."
+  },
+  {
+    "incident_id": "INC-1049",
+    "service": "order-service",
+    "timestamp": "2026-04-11T13:32:00",
+    "severity": "high",
+    "symptoms": [
+      "order processing delayed",
+      "Kafka consumer lag increasing",
+      "orders stuck in processing"
+    ],
+    "logs": [
+      "consumer lag exceeded threshold",
+      "Kafka partition backlog increasing"
+    ],
+    "root_cause": "A slow consumer group caused partition backlog.",
+    "resolution": [
+      "Increase Kafka consumers",
+      "Rebalance consumer group"
+    ],
+    "resolution_time_minutes": 17,
+    "outcome": "successful",
+    "engineer_feedback": "The fix worked as expected and traffic recovered."
+  },
+  {
+    "incident_id": "INC-1050",
+    "service": "order-service",
+    "timestamp": "2026-04-13T15:53:00",
+    "severity": "high",
+    "symptoms": [
+      "order creation failures",
+      "database transaction errors",
+      "increased request latency"
+    ],
+    "logs": [
+      "deadlock detected",
+      "transaction rolled back"
+    ],
+    "root_cause": "A transaction pattern created lock contention between order operations.",
+    "resolution": [
+      "Clear blocking transaction",
+      "Restart affected workers"
+    ],
+    "resolution_time_minutes": 8,
+    "outcome": "successful",
+    "engineer_feedback": "The remediation resolved the incident and service metrics returned to normal."
+  },
+  {
+    "incident_id": "INC-1051",
+    "service": "catalog-service",
+    "timestamp": "2026-04-15T11:40:00",
+    "severity": "medium",
+    "symptoms": [
+      "high API latency",
+      "CPU utilization above 95%",
+      "slow catalog requests"
+    ],
+    "logs": [
+      "CPU utilization 98%",
+      "request queue increasing"
+    ],
+    "root_cause": "A high-volume catalog query increased CPU utilization.",
+    "resolution": [
+      "Scale catalog-service instances",
+      "Monitor CPU utilization"
+    ],
+    "resolution_time_minutes": 20,
+    "outcome": "failed",
+    "engineer_feedback": "The remediation had no meaningful effect and another approach was required."
+  },
+  {
+    "incident_id": "INC-1052",
+    "service": "notification-service",
+    "timestamp": "2026-04-17T17:00:00",
+    "severity": "medium",
+    "symptoms": [
+      "notifications delayed",
+      "message queue backlog increasing",
+      "delivery latency high"
+    ],
+    "logs": [
+      "queue depth above threshold",
+      "consumer throughput below incoming rate"
+    ],
+    "root_cause": "A worker failure reduced queue processing capacity.",
+    "resolution": [
+      "Increase notification workers",
+      "Drain queue backlog"
+    ],
+    "resolution_time_minutes": 21,
+    "outcome": "successful",
+    "engineer_feedback": "Service recovered after the recommended remediation."
+  },
+  {
+    "incident_id": "INC-1053",
+    "service": "search-service",
+    "timestamp": "2026-04-19T14:37:00",
+    "severity": "high",
+    "symptoms": [
+      "search latency increasing",
+      "pod restarts",
+      "out-of-memory errors"
+    ],
+    "logs": [
+      "Java heap usage above 95%",
+      "OOMKilled container"
+    ],
+    "root_cause": "Search service memory usage increased until containers were OOM killed.",
+    "resolution": [
+      "Increase memory allocation",
+      "Restart affected pods"
+    ],
+    "resolution_time_minutes": 11,
+    "outcome": "successful",
+    "engineer_feedback": "The remediation resolved the incident and service metrics returned to normal."
+  },
+  {
+    "incident_id": "INC-1054",
+    "service": "user-profile-service",
+    "timestamp": "2026-04-21T09:19:00",
+    "severity": "medium",
+    "symptoms": [
+      "profile requests slow",
+      "database query latency high",
+      "request timeouts"
+    ],
+    "logs": [
+      "database query latency above 5 seconds",
+      "slow query threshold exceeded"
+    ],
+    "root_cause": "Missing query optimization caused repeated slow queries.",
+    "resolution": [
+      "Terminate expensive query",
+      "Scale database read capacity"
+    ],
+    "resolution_time_minutes": 20,
+    "outcome": "successful",
+    "engineer_feedback": "The fix worked as expected and traffic recovered."
+  },
+  {
+    "incident_id": "INC-1055",
+    "service": "payment-api",
+    "timestamp": "2026-04-23T12:42:00",
+    "severity": "critical",
+    "symptoms": [
+      "HTTP 503 errors",
+      "database connection timeouts",
+      "high payment failure rate"
+    ],
+    "logs": [
+      "DB connection pool exhausted",
+      "connection timeout after 30 seconds"
+    ],
+    "root_cause": "Connection pool saturation during a traffic spike.",
+    "resolution": [
+      "Increase database connection pool size",
+      "Restart payment-api instances"
+    ],
+    "resolution_time_minutes": 18,
+    "outcome": "successful",
+    "engineer_feedback": "The fix worked as expected and traffic recovered."
+  },
+  {
+    "incident_id": "INC-1056",
+    "service": "payment-api",
+    "timestamp": "2026-04-25T11:59:00",
+    "severity": "high",
+    "symptoms": [
+      "payment requests timing out",
+      "high API latency",
+      "intermittent 504 errors"
+    ],
+    "logs": [
+      "Redis latency above 2 seconds",
+      "cache requests timing out"
+    ],
+    "root_cause": "Redis replica latency caused payment request timeouts.",
+    "resolution": [
+      "Scale Redis capacity",
+      "Shift traffic to healthy replica"
+    ],
+    "resolution_time_minutes": 24,
+    "outcome": "successful",
+    "engineer_feedback": "Service recovered after the recommended remediation."
+  },
+  {
+    "incident_id": "INC-1057",
+    "service": "auth-service",
+    "timestamp": "2026-04-27T09:11:00",
+    "severity": "critical",
+    "symptoms": [
+      "login failures",
+      "token validation errors",
+      "authentication requests failing"
+    ],
+    "logs": [
+      "TLS certificate expired",
+      "certificate validation failed"
+    ],
+    "root_cause": "Authentication service TLS certificate expired.",
+    "resolution": [
+      "Renew authentication certificate",
+      "Restart auth-service"
+    ],
+    "resolution_time_minutes": 12,
+    "outcome": "successful",
+    "engineer_feedback": "Service recovered after the recommended remediation."
+  },
+  {
+    "incident_id": "INC-1058",
+    "service": "order-service",
+    "timestamp": "2026-04-29T12:17:00",
+    "severity": "high",
+    "symptoms": [
+      "order processing delayed",
+      "Kafka consumer lag increasing",
+      "orders stuck in processing"
+    ],
+    "logs": [
+      "consumer lag exceeded threshold",
+      "Kafka partition backlog increasing"
+    ],
+    "root_cause": "A slow consumer group caused partition backlog.",
+    "resolution": [
+      "Scale order-service consumers",
+      "Rebalance partitions"
+    ],
+    "resolution_time_minutes": 40,
+    "outcome": "partially successful",
+    "engineer_feedback": "The issue was partially mitigated but required further engineering work."
+  },
+  {
+    "incident_id": "INC-1059",
+    "service": "order-service",
+    "timestamp": "2026-05-01T09:54:00",
+    "severity": "high",
+    "symptoms": [
+      "order creation failures",
+      "database transaction errors",
+      "increased request latency"
+    ],
+    "logs": [
+      "deadlock detected",
+      "transaction rolled back"
+    ],
+    "root_cause": "Concurrent order transactions caused database deadlocks.",
+    "resolution": [
+      "Reduce concurrent writes",
+      "Retry failed transactions"
+    ],
+    "resolution_time_minutes": 10,
+    "outcome": "successful",
+    "engineer_feedback": "Service recovered after the recommended remediation."
+  },
+  {
+    "incident_id": "INC-1060",
+    "service": "catalog-service",
+    "timestamp": "2026-05-03T14:19:00",
+    "severity": "medium",
+    "symptoms": [
+      "high API latency",
+      "CPU utilization above 95%",
+      "slow catalog requests"
+    ],
+    "logs": [
+      "CPU utilization 98%",
+      "request queue increasing"
+    ],
+    "root_cause": "A high-volume catalog query increased CPU utilization.",
+    "resolution": [
+      "Scale catalog-service instances",
+      "Monitor CPU utilization"
+    ],
+    "resolution_time_minutes": 21,
+    "outcome": "partially successful",
+    "engineer_feedback": "The issue was partially mitigated but required further engineering work."
+  },
+  {
+    "incident_id": "INC-1061",
+    "service": "notification-service",
+    "timestamp": "2026-05-05T15:21:00",
+    "severity": "medium",
+    "symptoms": [
+      "notifications delayed",
+      "message queue backlog increasing",
+      "delivery latency high"
+    ],
+    "logs": [
+      "queue depth above threshold",
+      "consumer throughput below incoming rate"
+    ],
+    "root_cause": "Notification consumers could not keep up with incoming message volume.",
+    "resolution": [
+      "Increase notification workers",
+      "Drain queue backlog"
+    ],
+    "resolution_time_minutes": 7,
+    "outcome": "successful",
+    "engineer_feedback": "The fix worked as expected and traffic recovered."
+  },
+  {
+    "incident_id": "INC-1062",
+    "service": "search-service",
+    "timestamp": "2026-05-07T17:25:00",
+    "severity": "high",
+    "symptoms": [
+      "search latency increasing",
+      "pod restarts",
+      "out-of-memory errors"
+    ],
+    "logs": [
+      "Java heap usage above 95%",
+      "OOMKilled container"
+    ],
+    "root_cause": "A memory leak caused sustained heap growth.",
+    "resolution": [
+      "Increase memory allocation",
+      "Restart affected pods"
+    ],
+    "resolution_time_minutes": 15,
+    "outcome": "successful",
+    "engineer_feedback": "Engineer confirmed that the remediation resolved the issue."
+  },
+  {
+    "incident_id": "INC-1063",
+    "service": "user-profile-service",
+    "timestamp": "2026-05-09T10:56:00",
+    "severity": "medium",
+    "symptoms": [
+      "profile requests slow",
+      "database query latency high",
+      "request timeouts"
+    ],
+    "logs": [
+      "database query latency above 5 seconds",
+      "slow query threshold exceeded"
+    ],
+    "root_cause": "Missing query optimization caused repeated slow queries.",
+    "resolution": [
+      "Shift reads to replica",
+      "Terminate expensive query"
+    ],
+    "resolution_time_minutes": 17,
+    "outcome": "successful",
+    "engineer_feedback": "The remediation resolved the incident and service metrics returned to normal."
+  },
+  {
+    "incident_id": "INC-1064",
+    "service": "payment-api",
+    "timestamp": "2026-05-11T09:06:00",
+    "severity": "critical",
+    "symptoms": [
+      "HTTP 503 errors",
+      "database connection timeouts",
+      "high payment failure rate"
+    ],
+    "logs": [
+      "DB connection pool exhausted",
+      "connection timeout after 30 seconds"
+    ],
+    "root_cause": "Connection pool saturation during a traffic spike.",
+    "resolution": [
+      "Increase database connection pool size",
+      "Restart payment-api instances"
+    ],
+    "resolution_time_minutes": 33,
+    "outcome": "partially successful",
+    "engineer_feedback": "The remediation helped temporarily; a second change was required."
+  },
+  {
+    "incident_id": "INC-1065",
+    "service": "payment-api",
+    "timestamp": "2026-05-13T15:38:00",
+    "severity": "high",
+    "symptoms": [
+      "payment requests timing out",
+      "high API latency",
+      "intermittent 504 errors"
+    ],
+    "logs": [
+      "Redis latency above 2 seconds",
+      "cache requests timing out"
+    ],
+    "root_cause": "A Redis replica became overloaded.",
+    "resolution": [
+      "Scale Redis capacity",
+      "Shift traffic to healthy replica"
+    ],
+    "resolution_time_minutes": 26,
+    "outcome": "partially successful",
+    "engineer_feedback": "The remediation helped temporarily; a second change was required."
+  },
+  {
+    "incident_id": "INC-1066",
+    "service": "auth-service",
+    "timestamp": "2026-05-15T13:02:00",
+    "severity": "critical",
+    "symptoms": [
+      "login failures",
+      "token validation errors",
+      "authentication requests failing"
+    ],
+    "logs": [
+      "TLS certificate expired",
+      "certificate validation failed"
+    ],
+    "root_cause": "Expired certificate caused downstream TLS validation failures.",
+    "resolution": [
+      "Renew authentication certificate",
+      "Restart auth-service"
+    ],
+    "resolution_time_minutes": 19,
+    "outcome": "successful",
+    "engineer_feedback": "The fix worked as expected and traffic recovered."
+  },
+  {
+    "incident_id": "INC-1067",
+    "service": "order-service",
+    "timestamp": "2026-05-17T14:27:00",
+    "severity": "high",
+    "symptoms": [
+      "order processing delayed",
+      "Kafka consumer lag increasing",
+      "orders stuck in processing"
+    ],
+    "logs": [
+      "consumer lag exceeded threshold",
+      "Kafka partition backlog increasing"
+    ],
+    "root_cause": "A slow consumer group caused partition backlog.",
+    "resolution": [
+      "Scale order-service consumers",
+      "Rebalance partitions"
+    ],
+    "resolution_time_minutes": 15,
+    "outcome": "partially successful",
+    "engineer_feedback": "Service improved but some errors remained after the initial fix."
+  },
+  {
+    "incident_id": "INC-1068",
+    "service": "order-service",
+    "timestamp": "2026-05-19T10:46:00",
+    "severity": "high",
+    "symptoms": [
+      "order creation failures",
+      "database transaction errors",
+      "increased request latency"
+    ],
+    "logs": [
+      "deadlock detected",
+      "transaction rolled back"
+    ],
+    "root_cause": "Concurrent order transactions caused database deadlocks.",
+    "resolution": [
+      "Reduce concurrent writes",
+      "Retry failed transactions"
+    ],
+    "resolution_time_minutes": 17,
+    "outcome": "successful",
+    "engineer_feedback": "Engineer confirmed that the remediation resolved the issue."
+  },
+  {
+    "incident_id": "INC-1069",
+    "service": "catalog-service",
+    "timestamp": "2026-05-21T14:25:00",
+    "severity": "medium",
+    "symptoms": [
+      "high API latency",
+      "CPU utilization above 95%",
+      "slow catalog requests"
+    ],
+    "logs": [
+      "CPU utilization 98%",
+      "request queue increasing"
+    ],
+    "root_cause": "A high-volume catalog query increased CPU utilization.",
+    "resolution": [
+      "Temporarily reduce expensive queries",
+      "Scale catalog-service"
+    ],
+    "resolution_time_minutes": 39,
+    "outcome": "failed",
+    "engineer_feedback": "The issue remained unresolved after the attempted remediation."
+  },
+  {
+    "incident_id": "INC-1070",
+    "service": "notification-service",
+    "timestamp": "2026-05-23T12:26:00",
+    "severity": "medium",
+    "symptoms": [
+      "notifications delayed",
+      "message queue backlog increasing",
+      "delivery latency high"
+    ],
+    "logs": [
+      "queue depth above threshold",
+      "consumer throughput below incoming rate"
+    ],
+    "root_cause": "Queue backlog grew after a sudden increase in notification traffic.",
+    "resolution": [
+      "Restart failed workers",
+      "Scale consumers"
+    ],
+    "resolution_time_minutes": 24,
+    "outcome": "successful",
+    "engineer_feedback": "The fix worked as expected and traffic recovered."
+  },
+  {
+    "incident_id": "INC-1071",
+    "service": "search-service",
+    "timestamp": "2026-05-25T15:35:00",
+    "severity": "high",
+    "symptoms": [
+      "search latency increasing",
+      "pod restarts",
+      "out-of-memory errors"
+    ],
+    "logs": [
+      "Java heap usage above 95%",
+      "OOMKilled container"
+    ],
+    "root_cause": "Large search requests caused memory pressure.",
+    "resolution": [
+      "Restart leaking pods",
+      "Increase memory limit"
+    ],
+    "resolution_time_minutes": 12,
+    "outcome": "successful",
+    "engineer_feedback": "Engineer confirmed that the remediation resolved the issue."
+  },
+  {
+    "incident_id": "INC-1072",
+    "service": "user-profile-service",
+    "timestamp": "2026-05-27T15:50:00",
+    "severity": "medium",
+    "symptoms": [
+      "profile requests slow",
+      "database query latency high",
+      "request timeouts"
+    ],
+    "logs": [
+      "database query latency above 5 seconds",
+      "slow query threshold exceeded"
+    ],
+    "root_cause": "A slow database query increased profile request latency.",
+    "resolution": [
+      "Optimize affected query",
+      "Monitor database latency"
+    ],
+    "resolution_time_minutes": 38,
+    "outcome": "failed",
+    "engineer_feedback": "The initial fix failed and the incident required escalation."
+  },
+  {
+    "incident_id": "INC-1073",
+    "service": "payment-api",
+    "timestamp": "2026-05-29T16:28:00",
+    "severity": "critical",
+    "symptoms": [
+      "HTTP 503 errors",
+      "database connection timeouts",
+      "high payment failure rate"
+    ],
+    "logs": [
+      "DB connection pool exhausted",
+      "connection timeout after 30 seconds"
+    ],
+    "root_cause": "Too many concurrent database connections exhausted the configured pool.",
+    "resolution": [
+      "Terminate stale DB connections",
+      "Increase connection pool size"
+    ],
+    "resolution_time_minutes": 17,
+    "outcome": "successful",
+    "engineer_feedback": "Service recovered after the recommended remediation."
+  },
+  {
+    "incident_id": "INC-1074",
+    "service": "payment-api",
+    "timestamp": "2026-05-31T11:42:00",
+    "severity": "high",
+    "symptoms": [
+      "payment requests timing out",
+      "high API latency",
+      "intermittent 504 errors"
+    ],
+    "logs": [
+      "Redis latency above 2 seconds",
+      "cache requests timing out"
+    ],
+    "root_cause": "A Redis replica became overloaded.",
+    "resolution": [
+      "Restart overloaded Redis replica",
+      "Shift traffic to healthy replica"
+    ],
+    "resolution_time_minutes": 52,
+    "outcome": "failed",
+    "engineer_feedback": "The issue remained unresolved after the attempted remediation."
+  },
+  {
+    "incident_id": "INC-1075",
+    "service": "auth-service",
+    "timestamp": "2026-06-02T10:52:00",
+    "severity": "critical",
+    "symptoms": [
+      "login failures",
+      "token validation errors",
+      "authentication requests failing"
+    ],
+    "logs": [
+      "TLS certificate expired",
+      "certificate validation failed"
+    ],
+    "root_cause": "Authentication service TLS certificate expired.",
+    "resolution": [
+      "Deploy renewed certificate",
+      "Restart authentication pods"
+    ],
+    "resolution_time_minutes": 23,
+    "outcome": "successful",
+    "engineer_feedback": "Engineer confirmed that the remediation resolved the issue."
+  },
+  {
+    "incident_id": "INC-1076",
+    "service": "order-service",
+    "timestamp": "2026-06-04T12:09:00",
+    "severity": "high",
+    "symptoms": [
+      "order processing delayed",
+      "Kafka consumer lag increasing",
+      "orders stuck in processing"
+    ],
+    "logs": [
+      "consumer lag exceeded threshold",
+      "Kafka partition backlog increasing"
+    ],
+    "root_cause": "Kafka consumer lag increased because consumers could not keep up with order volume.",
+    "resolution": [
+      "Restart slow consumers",
+      "Increase consumer count"
+    ],
+    "resolution_time_minutes": 39,
+    "outcome": "failed",
+    "engineer_feedback": "The initial fix failed and the incident required escalation."
+  },
+  {
+    "incident_id": "INC-1077",
+    "service": "order-service",
+    "timestamp": "2026-06-06T10:29:00",
+    "severity": "high",
+    "symptoms": [
+      "order creation failures",
+      "database transaction errors",
+      "increased request latency"
+    ],
+    "logs": [
+      "deadlock detected",
+      "transaction rolled back"
+    ],
+    "root_cause": "Concurrent order transactions caused database deadlocks.",
+    "resolution": [
+      "Retry failed transactions",
+      "Terminate blocking transaction"
+    ],
+    "resolution_time_minutes": 14,
+    "outcome": "successful",
+    "engineer_feedback": "Service recovered after the recommended remediation."
+  },
+  {
+    "incident_id": "INC-1078",
+    "service": "catalog-service",
+    "timestamp": "2026-06-08T15:31:00",
+    "severity": "medium",
+    "symptoms": [
+      "high API latency",
+      "CPU utilization above 95%",
+      "slow catalog requests"
+    ],
+    "logs": [
+      "CPU utilization 98%",
+      "request queue increasing"
+    ],
+    "root_cause": "A high-volume catalog query increased CPU utilization.",
+    "resolution": [
+      "Temporarily reduce expensive queries",
+      "Scale catalog-service"
+    ],
+    "resolution_time_minutes": 33,
+    "outcome": "partially successful",
+    "engineer_feedback": "Service improved but some errors remained after the initial fix."
+  },
+  {
+    "incident_id": "INC-1079",
+    "service": "notification-service",
+    "timestamp": "2026-06-10T10:49:00",
+    "severity": "medium",
+    "symptoms": [
+      "notifications delayed",
+      "message queue backlog increasing",
+      "delivery latency high"
+    ],
+    "logs": [
+      "queue depth above threshold",
+      "consumer throughput below incoming rate"
+    ],
+    "root_cause": "A worker failure reduced queue processing capacity.",
+    "resolution": [
+      "Increase notification workers",
+      "Drain queue backlog"
+    ],
+    "resolution_time_minutes": 19,
+    "outcome": "partially successful",
+    "engineer_feedback": "The first remediation reduced the impact but additional investigation was required."
+  },
+  {
+    "incident_id": "INC-1080",
+    "service": "search-service",
+    "timestamp": "2026-06-12T09:35:00",
+    "severity": "high",
+    "symptoms": [
+      "search latency increasing",
+      "pod restarts",
+      "out-of-memory errors"
+    ],
+    "logs": [
+      "Java heap usage above 95%",
+      "OOMKilled container"
+    ],
+    "root_cause": "A memory leak caused sustained heap growth.",
+    "resolution": [
+      "Increase memory allocation",
+      "Restart affected pods"
+    ],
+    "resolution_time_minutes": 20,
+    "outcome": "partially successful",
+    "engineer_feedback": "The issue was partially mitigated but required further engineering work."
+  },
+  {
+    "incident_id": "INC-1081",
+    "service": "user-profile-service",
+    "timestamp": "2026-06-14T16:42:00",
+    "severity": "medium",
+    "symptoms": [
+      "profile requests slow",
+      "database query latency high",
+      "request timeouts"
+    ],
+    "logs": [
+      "database query latency above 5 seconds",
+      "slow query threshold exceeded"
+    ],
+    "root_cause": "A slow database query increased profile request latency.",
+    "resolution": [
+      "Terminate expensive query",
+      "Scale database read capacity"
+    ],
+    "resolution_time_minutes": 29,
+    "outcome": "partially successful",
+    "engineer_feedback": "Service improved but some errors remained after the initial fix."
+  },
+  {
+    "incident_id": "INC-1082",
+    "service": "payment-api",
+    "timestamp": "2026-06-16T17:27:00",
+    "severity": "critical",
+    "symptoms": [
+      "HTTP 503 errors",
+      "database connection timeouts",
+      "high payment failure rate"
+    ],
+    "logs": [
+      "DB connection pool exhausted",
+      "connection timeout after 30 seconds"
+    ],
+    "root_cause": "Too many concurrent database connections exhausted the configured pool.",
+    "resolution": [
+      "Terminate stale DB connections",
+      "Increase connection pool size"
+    ],
+    "resolution_time_minutes": 17,
+    "outcome": "successful",
+    "engineer_feedback": "Service recovered after the recommended remediation."
+  },
+  {
+    "incident_id": "INC-1083",
+    "service": "payment-api",
+    "timestamp": "2026-06-18T16:16:00",
+    "severity": "high",
+    "symptoms": [
+      "payment requests timing out",
+      "high API latency",
+      "intermittent 504 errors"
+    ],
+    "logs": [
+      "Redis latency above 2 seconds",
+      "cache requests timing out"
+    ],
+    "root_cause": "A Redis replica became overloaded.",
+    "resolution": [
+      "Scale Redis capacity",
+      "Shift traffic to healthy replica"
+    ],
+    "resolution_time_minutes": 12,
+    "outcome": "successful",
+    "engineer_feedback": "Service recovered after the recommended remediation."
+  },
+  {
+    "incident_id": "INC-1084",
+    "service": "auth-service",
+    "timestamp": "2026-06-20T12:17:00",
+    "severity": "critical",
+    "symptoms": [
+      "login failures",
+      "token validation errors",
+      "authentication requests failing"
+    ],
+    "logs": [
+      "TLS certificate expired",
+      "certificate validation failed"
+    ],
+    "root_cause": "Authentication service TLS certificate expired.",
+    "resolution": [
+      "Replace expired certificate",
+      "Restart auth-service instances"
+    ],
+    "resolution_time_minutes": 37,
+    "outcome": "failed",
+    "engineer_feedback": "The issue remained unresolved after the attempted remediation."
+  },
+  {
+    "incident_id": "INC-1085",
+    "service": "order-service",
+    "timestamp": "2026-06-22T13:21:00",
+    "severity": "high",
+    "symptoms": [
+      "order processing delayed",
+      "Kafka consumer lag increasing",
+      "orders stuck in processing"
+    ],
+    "logs": [
+      "consumer lag exceeded threshold",
+      "Kafka partition backlog increasing"
+    ],
+    "root_cause": "Insufficient Kafka consumers during a traffic spike.",
+    "resolution": [
+      "Increase Kafka consumers",
+      "Rebalance consumer group"
+    ],
+    "resolution_time_minutes": 38,
+    "outcome": "failed",
+    "engineer_feedback": "The initial fix failed and the incident required escalation."
+  },
+  {
+    "incident_id": "INC-1086",
+    "service": "order-service",
+    "timestamp": "2026-06-24T11:14:00",
+    "severity": "high",
+    "symptoms": [
+      "order creation failures",
+      "database transaction errors",
+      "increased request latency"
+    ],
+    "logs": [
+      "deadlock detected",
+      "transaction rolled back"
+    ],
+    "root_cause": "A transaction pattern created lock contention between order operations.",
+    "resolution": [
+      "Reduce concurrent writes",
+      "Retry failed transactions"
+    ],
+    "resolution_time_minutes": 9,
+    "outcome": "successful",
+    "engineer_feedback": "The fix worked as expected and traffic recovered."
+  },
+  {
+    "incident_id": "INC-1087",
+    "service": "catalog-service",
+    "timestamp": "2026-06-26T10:26:00",
+    "severity": "medium",
+    "symptoms": [
+      "high API latency",
+      "CPU utilization above 95%",
+      "slow catalog requests"
+    ],
+    "logs": [
+      "CPU utilization 98%",
+      "request queue increasing"
+    ],
+    "root_cause": "A high-volume catalog query increased CPU utilization.",
+    "resolution": [
+      "Temporarily reduce expensive queries",
+      "Scale catalog-service"
+    ],
+    "resolution_time_minutes": 11,
+    "outcome": "successful",
+    "engineer_feedback": "The fix worked as expected and traffic recovered."
+  },
+  {
+    "incident_id": "INC-1088",
+    "service": "notification-service",
+    "timestamp": "2026-06-28T15:03:00",
+    "severity": "medium",
+    "symptoms": [
+      "notifications delayed",
+      "message queue backlog increasing",
+      "delivery latency high"
+    ],
+    "logs": [
+      "queue depth above threshold",
+      "consumer throughput below incoming rate"
+    ],
+    "root_cause": "A worker failure reduced queue processing capacity.",
+    "resolution": [
+      "Restart failed workers",
+      "Scale consumers"
+    ],
+    "resolution_time_minutes": 32,
+    "outcome": "partially successful",
+    "engineer_feedback": "The issue was partially mitigated but required further engineering work."
+  },
+  {
+    "incident_id": "INC-1089",
+    "service": "search-service",
+    "timestamp": "2026-06-30T15:30:00",
+    "severity": "high",
+    "symptoms": [
+      "search latency increasing",
+      "pod restarts",
+      "out-of-memory errors"
+    ],
+    "logs": [
+      "Java heap usage above 95%",
+      "OOMKilled container"
+    ],
+    "root_cause": "Search service memory usage increased until containers were OOM killed.",
+    "resolution": [
+      "Restart leaking pods",
+      "Increase memory limit"
+    ],
+    "resolution_time_minutes": 19,
+    "outcome": "successful",
+    "engineer_feedback": "The remediation resolved the incident and service metrics returned to normal."
+  },
+  {
+    "incident_id": "INC-1090",
+    "service": "user-profile-service",
+    "timestamp": "2026-07-02T15:34:00",
+    "severity": "medium",
+    "symptoms": [
+      "profile requests slow",
+      "database query latency high",
+      "request timeouts"
+    ],
+    "logs": [
+      "database query latency above 5 seconds",
+      "slow query threshold exceeded"
+    ],
+    "root_cause": "A slow database query increased profile request latency.",
+    "resolution": [
+      "Optimize affected query",
+      "Monitor database latency"
+    ],
+    "resolution_time_minutes": 24,
+    "outcome": "partially successful",
+    "engineer_feedback": "The issue was partially mitigated but required further engineering work."
+  },
+  {
+    "incident_id": "INC-1091",
+    "service": "payment-api",
+    "timestamp": "2026-07-04T16:14:00",
+    "severity": "critical",
+    "symptoms": [
+      "HTTP 503 errors",
+      "database connection timeouts",
+      "high payment failure rate"
+    ],
+    "logs": [
+      "DB connection pool exhausted",
+      "connection timeout after 30 seconds"
+    ],
+    "root_cause": "Too many concurrent database connections exhausted the configured pool.",
+    "resolution": [
+      "Terminate stale DB connections",
+      "Increase connection pool size"
+    ],
+    "resolution_time_minutes": 54,
+    "outcome": "failed",
+    "engineer_feedback": "The initial fix failed and the incident required escalation."
+  },
+  {
+    "incident_id": "INC-1092",
+    "service": "payment-api",
+    "timestamp": "2026-07-06T15:21:00",
+    "severity": "high",
+    "symptoms": [
+      "payment requests timing out",
+      "high API latency",
+      "intermittent 504 errors"
+    ],
+    "logs": [
+      "Redis latency above 2 seconds",
+      "cache requests timing out"
+    ],
+    "root_cause": "Redis memory pressure increased cache response latency.",
+    "resolution": [
+      "Scale Redis capacity",
+      "Shift traffic to healthy replica"
+    ],
+    "resolution_time_minutes": 22,
+    "outcome": "successful",
+    "engineer_feedback": "The remediation resolved the incident and service metrics returned to normal."
+  },
+  {
+    "incident_id": "INC-1093",
+    "service": "auth-service",
+    "timestamp": "2026-07-08T16:58:00",
+    "severity": "critical",
+    "symptoms": [
+      "login failures",
+      "token validation errors",
+      "authentication requests failing"
+    ],
+    "logs": [
+      "TLS certificate expired",
+      "certificate validation failed"
+    ],
+    "root_cause": "Expired certificate caused downstream TLS validation failures.",
+    "resolution": [
+      "Replace expired certificate",
+      "Restart auth-service instances"
+    ],
+    "resolution_time_minutes": 19,
+    "outcome": "successful",
+    "engineer_feedback": "The fix worked as expected and traffic recovered."
+  },
+  {
+    "incident_id": "INC-1094",
+    "service": "order-service",
+    "timestamp": "2026-07-10T15:37:00",
+    "severity": "high",
+    "symptoms": [
+      "order processing delayed",
+      "Kafka consumer lag increasing",
+      "orders stuck in processing"
+    ],
+    "logs": [
+      "consumer lag exceeded threshold",
+      "Kafka partition backlog increasing"
+    ],
+    "root_cause": "Kafka consumer lag increased because consumers could not keep up with order volume.",
+    "resolution": [
+      "Restart slow consumers",
+      "Increase consumer count"
+    ],
+    "resolution_time_minutes": 24,
+    "outcome": "successful",
+    "engineer_feedback": "The remediation resolved the incident and service metrics returned to normal."
+  },
+  {
+    "incident_id": "INC-1095",
+    "service": "order-service",
+    "timestamp": "2026-07-12T15:08:00",
+    "severity": "high",
+    "symptoms": [
+      "order creation failures",
+      "database transaction errors",
+      "increased request latency"
+    ],
+    "logs": [
+      "deadlock detected",
+      "transaction rolled back"
+    ],
+    "root_cause": "Database lock contention caused repeated transaction rollbacks.",
+    "resolution": [
+      "Reduce concurrent writes",
+      "Retry failed transactions"
+    ],
+    "resolution_time_minutes": 7,
+    "outcome": "successful",
+    "engineer_feedback": "The remediation resolved the incident and service metrics returned to normal."
+  },
+  {
+    "incident_id": "INC-1096",
+    "service": "catalog-service",
+    "timestamp": "2026-07-14T15:20:00",
+    "severity": "medium",
+    "symptoms": [
+      "high API latency",
+      "CPU utilization above 95%",
+      "slow catalog requests"
+    ],
+    "logs": [
+      "CPU utilization 98%",
+      "request queue increasing"
+    ],
+    "root_cause": "A high-volume catalog query increased CPU utilization.",
+    "resolution": [
+      "Scale catalog-service instances",
+      "Monitor CPU utilization"
+    ],
+    "resolution_time_minutes": 8,
+    "outcome": "successful",
+    "engineer_feedback": "Engineer confirmed that the remediation resolved the issue."
+  },
+  {
+    "incident_id": "INC-1097",
+    "service": "notification-service",
+    "timestamp": "2026-07-16T15:17:00",
+    "severity": "medium",
+    "symptoms": [
+      "notifications delayed",
+      "message queue backlog increasing",
+      "delivery latency high"
+    ],
+    "logs": [
+      "queue depth above threshold",
+      "consumer throughput below incoming rate"
+    ],
+    "root_cause": "Notification consumers could not keep up with incoming message volume.",
+    "resolution": [
+      "Restart failed workers",
+      "Scale consumers"
+    ],
+    "resolution_time_minutes": 40,
+    "outcome": "failed",
+    "engineer_feedback": "The remediation had no meaningful effect and another approach was required."
+  },
+  {
+    "incident_id": "INC-1098",
+    "service": "search-service",
+    "timestamp": "2026-07-18T09:47:00",
+    "severity": "high",
+    "symptoms": [
+      "search latency increasing",
+      "pod restarts",
+      "out-of-memory errors"
+    ],
+    "logs": [
+      "Java heap usage above 95%",
+      "OOMKilled container"
+    ],
+    "root_cause": "A memory leak caused sustained heap growth.",
+    "resolution": [
+      "Restart leaking pods",
+      "Increase memory limit"
+    ],
+    "resolution_time_minutes": 9,
+    "outcome": "successful",
+    "engineer_feedback": "Service recovered after the recommended remediation."
+  },
+  {
+    "incident_id": "INC-1099",
+    "service": "user-profile-service",
+    "timestamp": "2026-07-20T10:49:00",
+    "severity": "medium",
+    "symptoms": [
+      "profile requests slow",
+      "database query latency high",
+      "request timeouts"
+    ],
+    "logs": [
+      "database query latency above 5 seconds",
+      "slow query threshold exceeded"
+    ],
+    "root_cause": "Missing query optimization caused repeated slow queries.",
+    "resolution": [
+      "Terminate expensive query",
+      "Scale database read capacity"
+    ],
+    "resolution_time_minutes": 18,
+    "outcome": "successful",
+    "engineer_feedback": "The fix worked as expected and traffic recovered."
+  },
+  {
+    "incident_id": "INC-1100",
+    "service": "payment-api",
+    "timestamp": "2026-07-22T12:12:00",
+    "severity": "critical",
+    "symptoms": [
+      "HTTP 503 errors",
+      "database connection timeouts",
+      "high payment failure rate"
+    ],
+    "logs": [
+      "DB connection pool exhausted",
+      "connection timeout after 30 seconds"
+    ],
+    "root_cause": "Too many concurrent database connections exhausted the configured pool.",
+    "resolution": [
+      "Increase database connection pool size",
+      "Restart payment-api instances"
+    ],
+    "resolution_time_minutes": 39,
+    "outcome": "partially successful",
+    "engineer_feedback": "The first remediation reduced the impact but additional investigation was required."
+  }
+]
